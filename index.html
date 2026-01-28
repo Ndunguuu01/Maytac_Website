@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maytac International | Premium Kenyan Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. COLOR PALETTE & VARIABLES --- */
+        :root {
+            --maytac-blue: #003366;      
+            --maytac-green: #2E8B57;     
+            --bg-latte: #F5F0E6;         
+            --bg-mist: #E8F3E8;          
+            --bg-white: #ffffff;         
+            --text-dark: #222222;
+            --transition: all 0.4s ease;
+        }
+
+        /* --- 2. GLOBAL STYLES --- */
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Lora', serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, button, a {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- 3. ANIMATION CLASSES --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+
+        /* --- 4. NAVIGATION --- */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 0.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container img { height: 70px; width: auto; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--maytac-blue);
+            font-weight: 600;
+            margin-left: 2rem;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover { color: var(--maytac-green); }
+
+        .btn-nav {
+            background: var(--maytac-green);
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+        }
+        
+        .btn-nav:hover { background: var(--maytac-blue); }
+
+        /* --- 5. HERO SECTION (VIDEO BACKGROUND) --- */
+        .hero {
+            position: relative;
+            height: 95vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* The Video Container */
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        /* The Actual Video Styling */
+        .hero-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures video covers the screen without stretching */
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Dark gradient to make white text pop over the video */
+            background: linear-gradient(to bottom, rgba(0,20,40,0.4), rgba(0,20,40,0.7));
+            z-index: -1;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(46, 139, 87, 0.4);
+            border: 1px solid var(--maytac-green);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #f0f0f0;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-main {
+            padding: 1rem 3rem;
+            background: var(--maytac-green);
+            color: white;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.4);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            background: var(--white);
+            color: var(--maytac-green);
+        }
+
+        /* STATS BAR */
+        .hero-stats {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 0;
+            gap: 6rem;
+        }
+
+        .stat-item { text-align: left; }
+        .stat-label { display: block; font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+        .stat-value { font-size: 1.2rem; font-weight: 700; color: white; }
+
+        /* --- 6. SECTIONS CONFIG --- */
+        .section-padding { padding: 6rem 10%; }
+        
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; display: inline-block; }
+        .section-header p { font-style: italic; color: #777; }
+
+        /* --- 7. ABOUT (WHITE BG) --- */
+        #about { background-color: var(--bg-white); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .about-img img { width: 100%; border-radius: 10px; box-shadow: 20px 20px 0 var(--bg-latte); }
+
+        /* --- 8. PRODUCTS (LATTE BG) --- */
+        #products { background-color: var(--bg-latte); }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        
+        .product-card {
+            background: white; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s;
+        }
+        .product-card:hover { transform: translateY(-10px); }
+        .card-img { height: 260px; overflow: hidden; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-txt { padding: 1.5rem; text-align: center; }
+        .grade-badge { background: var(--maytac-blue); color: white; padding: 5px 12px; font-size: 0.7rem; border-radius: 20px; font-weight: bold; }
+
+        /* --- 9. PROCESS (BLUE BG) --- */
+        #process { background-color: var(--maytac-blue); color: white; position: relative; }
+        
+        .process-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+
+        .process-card {
+            background: rgba(255,255,255,0.05);
+            padding: 2.5rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--maytac-green);
+            transition: 0.3s;
+        }
+
+        .process-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(10px);
+        }
+
+        .process-header { display: flex; align-items: center; margin-bottom: 1rem; }
+        .process-num { 
+            font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1); 
+            margin-right: 15px; line-height: 1;
+        }
+        .process-title { font-size: 1.4rem; font-weight: 700; color: white; }
+        .process-desc { color: rgba(255,255,255,0.8); font-size: 0.95rem; }
+
+        /* --- 10. GALLERY (MIST BG) --- */
+        #gallery { background-color: var(--bg-mist); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        
+        /* Updated Gallery Item to handle both IMG and VIDEO */
+        .gallery-item { height: 300px; overflow: hidden; border-radius: 5px; position: relative; }
+        
+        .gallery-item img, 
+        .gallery-item video { 
+            width: 100%; height: 100%; object-fit: cover; transition: 0.5s; 
+        }
+        
+        /* Hover effect only on images (videos play automatically) */
+        .gallery-item img:hover { transform: scale(1.1); filter: grayscale(0%); }
+        .gallery-item img { filter: grayscale(10%); }
+
+        /* --- 11. FOOTER (DARK) --- */
+        footer { background: #1a1a1a; color: #999; padding: 5rem 10% 2rem; }
+        .footer-flex { display: flex; justify-content: space-between; gap: 4rem; flex-wrap: wrap; }
+        .footer-col { flex: 1; min-width: 300px; }
+        .footer-col h3 { color: white; margin-bottom: 1.5rem; border-bottom: 2px solid var(--maytac-green); display: inline-block; padding-bottom: 5px; }
+        
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 12px; margin-bottom: 10px;
+            background: #2a2a2a; border: 1px solid #333; color: white;
+            font-family: inherit;
+        }
+        .btn-submit {
+            width: 100%; padding: 12px; background: var(--maytac-green);
+            color: white; border: none; font-weight: bold; cursor: pointer;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero-stats { display: none; }
+            .about-grid, .process-grid, .gallery-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="WhatsApp Image 2026-01-27 at 12.52.28 PM.jpeg" alt="Maytac Logo">
+        </div>
+        <nav class="nav-links">
+            <a href="#about">Our Story</a>
+            <a href="#products">Coffee Grades</a>
+            <a href="#process">From Farm to Cup</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact" class="btn-nav">Partner With Us</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-video-container">
+            <video autoplay muted loop playsinline>
+                <source src="4948-181538478.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content reveal">
+            <span class="hero-tag">Est. 2026 • Nairobi, Kenya</span>
+            <h1>Kenya's Finest,<br>Europe's Choice.</h1>
+            <p>We bridge the gap between the high-altitude volcanic soils of Mt. Kenya and the world's most discerning roasters.</p>
+            <button class="btn-main" onclick="document.getElementById('products').scrollIntoView()">View Our Catalog</button>
+        </div>
+
+        <div class="hero-stats reveal delay-300">
+            <div class="stat-item">
+                <span class="stat-label">Origin</span>
+                <span class="stat-value">Mt. Kenya / Aberdares</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Altitude</span>
+                <span class="stat-value">1,700 - 2,200 MASL</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Processing</span>
+                <span class="stat-value">Fully Washed</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-padding">
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <h2 style="color: var(--maytac-blue);">Traceable. Ethical. Premium.</h2>
+                <p><strong>Maytac International Partners Limited</strong> is not just an exporter; we are your direct link to the farmer.</p>
+                <p>Founded in Nairobi, we specialize in sourcing high-quality Arabica coffee directly from cooperatives in Nyeri, Kirinyaga, and Kiambu. Our mission is to bypass unnecessary middlemen, ensuring farmers get better pay while you get fresher beans.</p>
+                <p>We handle all logistics, from the mill to the port of Mombasa, ensuring your container arrives in Europe with all necessary documentation.</p>
+            </div>
+            <div class="about-img reveal delay-200">
+                <img src="WhatsApp Image 2026-01-27 at 10.34.14 PM.jpeg" alt="Maytac Export Bags">
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="section-padding">
+        <div class="section-header reveal">
+            <h2 style="color: var(--maytac-blue);">Our Coffee Grades</h2>
+            <p>Strictly graded by the Kenya Coffee Bureau standards.</p>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-card reveal delay-100">
+                <div class="card-img">
+                    <img src="WhatsApp Image 2026-01-27 at 10.34.11 PM.jpeg" alt="Kenya AA">
+                </div>
+                <div class="card-txt">
+                    <span class="grade-badge">GRADE AA</span>
+                    <h3>Mount Kenya Supreme</h3>
+                    <p>Screen size 18+. The largest beans with the highest oil content. Expect bold, wine-like acidity and blackcurrant notes.</p>
+                </div>
+            </div>
+
+            <div class="product-card reveal delay-200">
+                <div class="card-img">
+                    <img src="WhatsApp Image 2026-01-27 at 10.34.16 PM.jpeg" alt="Kenya AB">
+                </div>
+                <div class="card-txt">
+                    <span class="grade-badge">GRADE AB</span>
+                    <h3>Savannah Blend</h3>
+                    <p>A mix of A (screen 16) and B (screen 15) beans. Known for being well-balanced with bright citrus acidity.</p>
+                </div>
+            </div>
+
+            <div class="product-card reveal delay-300">
+                <div class="card-img">
+                    <img src="WhatsApp Image 2026-01-27 at 10.34.09 PM (1).jpeg" alt="Peaberry">
+                </div>
+                <div class="card-txt">
+                    <span class="grade-badge">PEABERRY (PB)</span>
+                    <h3>The Pearl Bean</h3>
+                    <p>A natural mutation where a single bean absorbs all nutrients. Highly prized for its concentrated, complex flavor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process" class="section-padding">
+        <div class="section-header reveal">
+            <h2 style="color:white;">From Farm to Cup</h2>
+            <p style="color: rgba(255,255,255,0.7);">Our rigorous "Fully Washed" process ensures the cleanest cup profile.</p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-card reveal delay-100">
+                <div class="process-header">
+                    <span class="process-num">01</span>
+                    <span class="process-title">Selective Harvesting</span>
+                </div>
+                <p class="process-desc">
+                    Quality begins on the tree. Our partner farmers hand-pick <strong>only the deep red, ripe cherries</strong>. This selective picking ensures high sugar content and consistent flavor.
+                </p>
+            </div>
+
+            <div class="process-card reveal delay-200">
+                <div class="process-header">
+                    <span class="process-num">02</span>
+                    <span class="process-title">Wet Processing (Pulping)</span>
+                </div>
+                <p class="process-desc">
+                    Within 24 hours of harvest, cherries are pulped to remove the skin. The beans then undergo <strong>fermentation for 12-24 hours</strong> to break down the mucilage.
+                </p>
+            </div>
+
+            <div class="process-card reveal delay-300">
+                <div class="process-header">
+                    <span class="process-num">03</span>
+                    <span class="process-title">Sun Drying</span>
+                </div>
+                <p class="process-desc">
+                    The washed parchment coffee is laid out on <strong>raised African drying beds</strong>. This allows air to circulate freely. The beans are turned regularly until they reach 10.5% - 11.5% moisture.
+                </p>
+            </div>
+
+            <div class="process-card reveal delay-300">
+                <div class="process-header">
+                    <span class="process-num">04</span>
+                    <span class="process-title">Dry Milling & Export</span>
+                </div>
+                <p class="process-desc">
+                    Green beans are polished and <strong>gravity-graded</strong> by size (AA, AB, PB) and density. They are packed in GrainPro bags inside jute sacks, ready for shipment to Europe.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="section-padding">
+        <div class="section-header reveal">
+            <h2 style="color: var(--maytac-blue);">The Experience</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item reveal delay-100">
+                <video autoplay muted loop playsinline>
+                    <source src="46989-449623829_small.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="gallery-item reveal delay-200">
+                <img src="WhatsApp Image 2026-01-27 at 10.34.09 PM (1).jpeg" alt="Coffee Toast">
+            </div>
+            <div class="gallery-item reveal delay-300">
+                <img src="WhatsApp Image 2026-01-27 at 10.34.10 PM (1) - Copy.jpeg" alt="Espresso Shot">
+            </div>
+            <div class="gallery-item reveal delay-100">
+                <img src="WhatsApp Image 2026-01-27 at 10.34.10 PM (2).jpeg" alt="Lab">
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-flex">
+            <div class="footer-col">
+                <h3>Contact Maytac</h3>
+                <p>We are currently accepting contracts for the 2026 Harvest.</p>
+                <p><strong>📍 HQ:</strong> Nairobi, Kenya</p>
+                <p><strong>📞 Phone:</strong> +254 700 000 000</p>
+                <p><strong>✉️ Email:</strong> info@maytac.co.ke</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul style="list-style:none; padding:0; line-height:2;">
+                    <li><a href="#about" style="color:#999; text-decoration:none;">About Us</a></li>
+                    <li><a href="#products" style="color:#999; text-decoration:none;">Coffee Grades</a></li>
+                    <li><a href="#" style="color:#999; text-decoration:none;">Request Samples</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Send Inquiry</h3>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name / Company" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <textarea rows="3" placeholder="Message (e.g., FOB Pricing for 20ft container)" required></textarea>
+                    <button type="submit" class="btn-submit">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 4rem; border-top: 1px solid #333; padding-top: 2rem; font-size: 0.8rem;">
+            &copy; 2026 Maytac International Partners Limited. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>
